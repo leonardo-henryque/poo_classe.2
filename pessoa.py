@@ -8,18 +8,17 @@ class Pessoa:
         self._salario = salario
 
     def apresentar(self):
-        print(f'Olá sou {self.nome}, minha data de nascimento é {self.data_nascimento}'
-              f', meu codigo é {self.codigo}')
-
-        if self.estudando:
-            print(f'Estou Estudando')
-        else:
-            print(f'Não estou estudando')
-
-        if self.trabalhando:
-            print(f'Estou trabalhando')
-        else:
-            print(f'Não estou trabalhando')
+        #print("\n")
+        print('-','-' * 20,'-')
+        print(f"Olá, sou {self.get_nome()} \n"
+              f"meu aniversario é dia: {self.get_data_nascimento()} \n"
+              f"n de reg istro: {self.get_codigo()}")
+        print(f"Estudando: {'Sim' if self.get_estudando() else 'Não'}")
+        print(f"Trabalhando: {'Sim' if self.get_estudando() else 'Não'}")
+        if self.get_trabalhando():
+            print(f"Salario: {self.get_salario():.2f}")
+        print("+","-" * 20,"+")
+        print("\n")
 
     def estudar(self):
         if not self.estudando:
@@ -43,6 +42,7 @@ class Pessoa:
         else:
             print(f'{self.nome} ja está trabalhando !')
 
+
     def get_nome(self):
         return self.__nome
     def get_data_nascimento(self):
@@ -53,7 +53,7 @@ class Pessoa:
         return self._estudando
     def get_trabalhando(self):
         return self._trabalhando
-    def get_salario(self):
+    def get_trabalhando(self):
         return self._salario
 
 
@@ -67,10 +67,10 @@ class Pessoa:
             self._salario(100)
         else:
             self._trabalhando = status
-            self.set_salario()
+            self.set_salario(0)
     def set_estudando(self, status):
         self._estudando = status
-        if status:
+        if status and not self._trabalhando:
             self._salario(self._salario() + 100)
     def set_salario(self, salario):
         if salario >= 0:
@@ -86,45 +86,39 @@ class Bebe(Pessoa):
         self.chorando = True
         self.dormindo = False
 
-    def apresentar(self):
-        print(f'Olá sou {self.nome}, minha data de nascimento é {self.data_nascimento}'
-              f', meu codigo é {self.codigo}')
-
-        if self.fome:
-            print(f'O {self.nome} está com fome')
-        else:
-            print(f'O {self.nome} não ta com fome')
-
-        if self.chorando:
-            print(f'O {self.nome} ta chorando')
-        else:
-            print(f'O {self.nome} nao esta chorando')
-
-        if self.dormindo:
-            print(f'O {self.nome} esta dormindo')
-        else:
-            print(f'O {self.nome} nao esta dormindo')
-
     def mamar(self):
-        if not self.fome:
-            print('bebe não está com fome')
-        else:
+        if self.fome:
             self.fome = False
             self.chorando = False
-            print(f'{self.nome} mamou legal ')
-            print('bebe não esta mais com fome')
+            print(f"{self.nome} mamou e esta satisfeito.")
+        else:
+            print(f"{self.nome} não está com fome e não quer mamar.")
+
+    def chorar(self):
+        if self.chorando:
+            print(f"{self.nome} está chorando")
+        else:
+            print(f"{self.nome} não está chorando")
 
     def dormir(self):
-        if not self.fome:
-            self.dormindo = True
-            print('bebe foi dormir')
+        if not self.dormindo:
+            if self.fome:
+                print(f"{self.nome} está com fome e não consegue dormir")
+            else:
+                self.dormindo = True
+                print(f"{self.nome} foi dormir. shhh, não faça barulho")
         else:
-            print('bebe está com fome não pode dormir')
+            print(f"{self.nome} ja está dormindo.")
 
+    def apresentar(self):
+        super().apresentar()
+        print(f"Fome: {'Sim' if self.fome else 'Não'}")
+        print(f"Chorando: {'Sim' if self.fome else 'Não'}")
+        print(f"Dormindo: {'Não' if self.fome else 'Sim'}")
+        print('-' * 20)
 
-
-
-p1 = Pessoa("Lucas", "03/03/2003", "123",1200,True, True)
+p1 = Pessoa("Lucas", "03/03/2003", "123",100,True, True)
 b1 = Bebe('Bebe','26/01/2025', '1')
+p1.apresentar()
 b1.apresentar()
 print('-_-' * 20)
